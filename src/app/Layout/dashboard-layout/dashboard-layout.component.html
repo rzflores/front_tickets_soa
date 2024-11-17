@@ -1,1 +1,117 @@
-<p>dashboard-layout works!</p>,
+
+        
+<p-menubar>
+    <ng-template pTemplate="start">
+        <!-- <svg width="33" height="35" viewBox="0 0 33 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="..." fill="var(--primary-color)" />
+            <mask id="mask0_1_36" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="31" height="33">
+                <path d="..." fill="var(--primary-color-text)" />
+            </mask>
+            <g mask="url(#mask0_1_36)">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="..." />
+            </g>
+            <path d="..." fill="var(--primary-color-text)" />
+            <path d="..." fill="var(--primary-color-text)" />
+            <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="..."
+                fill="var(--primary-color-text)"
+            />
+            <path d="..." fill="var(--primary-color-text)" />
+            <path d="..." fill="var(--primary-color-text)" />
+            <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="..."
+                fill="var(--primary-color-text)"
+            />
+            <path d="..." fill="var(--primary-color-text)" />
+            <path d="..." fill="var(--primary-color-text)" />
+            <path d="..." fill="var(--primary-color-text)" />
+            <path d="..." fill="var(--primary-color-text)" />
+        </svg> -->
+        <h2 (click)="onDashboard()" class="pl-4">Helpdesk</h2>
+    </ng-template>
+    <ng-template pTemplate="item" let-item let-root="root">
+        
+    </ng-template>
+    <ng-template pTemplate="end">
+        <div class="flex align-items-center gap-2">
+            <p-toast></p-toast>
+            <p-menu #menu [model]="itemsProfile" [popup]="true"></p-menu>
+            <p-avatar 
+                image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" 
+                shape="circle" 
+                (click)="menu.toggle($event)"
+                >
+            </p-avatar>
+        </div>
+    </ng-template>
+</p-menubar>
+<div class="card-container flex">
+    <div class="card flex align-items-start" style="flex-shrink: 0;">
+        <p-menu [model]="itemsMenu"></p-menu>
+    </div>
+    <div class="card flex-grow-1 flex justify-content-start px-4 pt-4">
+        @if (isViewDashboard) {
+            <div class="card flex flex-wrap gap-2 justify-content-between">
+                <p-card  
+                    [style]="{  width: '300px' , 
+                                backgroundColor: 'red' , 
+                                color: 'white' }"
+                >
+                    <p>
+                        50 Abiertos
+                    </p>
+                </p-card>
+                <p-card 
+                    [style]="{  width: '300px' , 
+                                backgroundColor: 'brown' , 
+                                color: 'white' }"
+                >
+                    <p>
+                        200 En proceso
+                    </p>
+                </p-card>
+                <p-card 
+                [style]="{  width: '300px' , 
+                            backgroundColor: 'green' , 
+                            color: 'white' }"
+                >
+                    <p>
+                        49 Cerrado
+                    </p>
+                </p-card>
+                <p-card 
+                [style]="{  width: '300px' , 
+                            backgroundColor: 'skyblue' , 
+                            color: 'white' }"                
+                >
+                    <p>
+                        1 Administrador
+                    </p>
+                </p-card>
+                <p-card 
+                [style]="{  width: '300px' , 
+                            backgroundColor: 'blue' , 
+                            color: 'white' }"                
+                >
+                    <p>
+                        50 Clientes
+                    </p>
+                </p-card>
+                <p-card 
+                [style]="{  width: '300px' , 
+                            backgroundColor: 'purple' , 
+                            color: 'white' }"
+                >
+                    <p>
+                        30 Empleados
+                    </p>
+                </p-card>
+            </div>
+        }
+        <router-outlet></router-outlet>
+    </div>
+</div>

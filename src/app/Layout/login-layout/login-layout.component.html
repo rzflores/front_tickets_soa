@@ -1,1 +1,48 @@
-<p>login-layout works!</p>,
+<div class="min-h-screen flex align-items-center justify-content-center surface-ground">
+    <p-card 
+        [style]="{ width: '360px' }">
+        <ng-template pTemplate="header">
+            <h2 class="text-center text-lg font-semibold pt-4">Log in</h2>
+        </ng-template>
+        <div class="flex flex-column gap-2 -mt-4">
+            <label for="username">Email</label>
+               <input 
+                type="text"
+                pInputText 
+                id="username" 
+                />
+            <!-- <small id="username-help">
+                Enter your username to reset your password.
+            </small> -->
+        </div>
+        <div class="flex flex-column gap-2 pt-4">
+            <label for="password">Password</label>
+            <input 
+                type="password"
+                pInputText 
+                id="password" 
+                />
+            <!-- <small id="username-help">
+                Enter your username to reset your password.
+            </small> -->
+        </div>
+        <div class="flex align-items-center pt-4">
+            <p-checkbox 
+                label="Remember me" 
+                name="remenber" 
+                value="remenber" 
+                />
+        </div>
+        <ng-template pTemplate="footer">
+            <div class="flex gap-3 mt-1 mb-2">
+                <p-button 
+                label="Login" 
+                class="w-full" 
+                styleClass="w-full"  
+                (onClick)="executeLogin()" 
+                />
+            </div>
+            <a href="#" class="text-dark-600 decoration-underline">Forgot your password?</a>
+        </ng-template>
+    </p-card>
+</div>
