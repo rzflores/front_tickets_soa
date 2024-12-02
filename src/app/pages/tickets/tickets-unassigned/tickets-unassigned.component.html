@@ -1,17 +1,17 @@
 
 <div class="flex justify-content-start">
-    <h3>Tickets</h3>
+    <h3>Tickets No Asignados</h3>
 </div>
 <p-divider />
 <div class="flex justify-content-end pb-2">
-    <p-button>
+    <p-button (click)="openNuevo()">
         Nuevo Ticket
     </p-button>
 </div>
 <div class="flex justify-center">
     <p-table
         #dt1
-        [value]="allTickets"
+        [value]="unasignedTickets"
         dataKey="id"
         [rows]="10"
         [rowsPerPageOptions]="[10, 25, 50]"
@@ -59,11 +59,11 @@
                         Categoria
                     </div>
                 </th>
-                <th style="min-width:10%">
+                <!-- <th style="min-width:10%">
                     <div class="flex align-items-center">
                         Ultima Actualización
                     </div>
-                </th>
+                </th> -->
                 <th style="min-width:10%">
                     <div class="flex align-items-center">
                         Estado
@@ -84,21 +84,29 @@
         <ng-template pTemplate="body" let-customer>
             <tr>
                 <td>
-                    {{ customer.name }}
+                    text
                 </td>
                 <td>
-                    <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + customer.country.code" style="width: 20px" />
-                    <span class="ml-1 vertical-align-middle">{{ customer.country.name }}</span>
+                    text
                 </td>
                 <td>
-                    <img [alt]="customer.representative.name" src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ customer.representative.image }}" width="32" style="vertical-align: middle" />
-                    <span class="ml-1 vertical-align-middle">{{ customer.representative.name }}</span>
+                    text
+                </td>
+                <td>
+                    text
+                </td>
+                <td>
+                    text
                 </td>
                 <td>
                     text
                 </td>
                 <td class="text-center">
-                    <i class="pi" [ngClass]="{ 'text-green-500 pi-check-circle': customer.verified, 'text-red-500 pi-times-circle': !customer.verified }"></i>
+                    <div class="card flex justify-content-center gap-2">
+                        <p-button severity="secondary" label="Ver" (click)="openVer($event)" />
+                        <p-button severity="secondary" label="Asignar" (click)="openAsignar($event)" />
+                        <p-button severity="danger" label="Eliminar" (onClick)="openEliminar($event)" />
+                    </div> 
                 </td>
             </tr>
         </ng-template>

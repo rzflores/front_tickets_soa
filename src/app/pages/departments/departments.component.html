@@ -4,7 +4,7 @@
 </div>
 <p-divider />
 <div class="flex justify-content-end pb-2">
-    <p-button>
+    <p-button (click)="openNuevo()">
         Nuevo
     </p-button>
 </div>
@@ -56,24 +56,19 @@
                 </th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-customer>
+        <ng-template pTemplate="body" let-item>
             <tr>
                 <td>
-                    {{ customer.name }}
+                    {{ item.id }}
                 </td>
                 <td>
-                    <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + customer.country.code" style="width: 20px" />
-                    <span class="ml-1 vertical-align-middle">{{ customer.country.name }}</span>
-                </td>
-                <td>
-                    <img [alt]="customer.representative.name" src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ customer.representative.image }}" width="32" style="vertical-align: middle" />
-                    <span class="ml-1 vertical-align-middle">{{ customer.representative.name }}</span>
-                </td>
-                <td>
-                    text
+                    {{ item.nombre }}
                 </td>
                 <td class="text-center">
-                    <i class="pi" [ngClass]="{ 'text-green-500 pi-check-circle': customer.verified, 'text-red-500 pi-times-circle': !customer.verified }"></i>
+                    <div class="card flex justify-content-center gap-2">
+                        <p-button severity="secondary" label="Editar" (click)="openEditar($event)" />
+                        <p-button severity="danger" label="Eliminar" (onClick)="openEliminar($event)" />
+                    </div>                
                 </td>
             </tr>
         </ng-template>

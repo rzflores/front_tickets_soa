@@ -1,0 +1,25 @@
+<div class="card flex flex-column justify-content-center pb-4 w-full">
+    <div class="flex flex-column gap-2 w-full pb-4">
+        <label for="nombre_category">Nombre</label>
+        <input 
+            class="w-full"
+            pInputText 
+            id="nombre_category" 
+            aria-describedby="nombre_category-help" 
+            [(ngModel)]="nombre_category" />
+    </div>
+    <div class="flex flex-column gap-2 w-full">
+        <label for="nombre_category">Departamento</label>
+        <p-dropdown 
+            class="w-full"
+            [options]="departments" 
+            [(ngModel)]="selectedDepartment" 
+            optionLabel="nombre" 
+            placeholder="Seleccionar Departamento ..." />
+    </div>
+</div>
+<div class="flex justify-content-end pb-2">
+    <p-button (click)="editarCategoria()">
+        Editar
+    </p-button>
+</div>

@@ -1,0 +1,19 @@
+<div class="card flex justify-content-center pb-4 w-full" >
+    <div class="flex flex-column gap-2 w-full">
+        <label for="nombre_department">Nombre</label>
+        <input 
+            class="w-full"
+            pInputText 
+            id="nombre_department" 
+            aria-describedby="nombre_department-help" 
+            [(ngModel)]="nombre_department" />
+        <!-- <small id="nombre_department-help">
+            Enter your username to reset your password.
+        </small> -->
+    </div>
+</div>
+<div class="flex justify-content-end pb-2">
+    <p-button (click)="editarDepartamento()">
+        Editar
+    </p-button>
+</div>

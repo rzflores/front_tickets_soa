@@ -5,17 +5,15 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { FormsModule } from '@angular/forms';
-import { User } from './models/User.interface';
 import { DividerModule } from 'primeng/divider';
-import { DialogModule } from 'primeng/dialog';
+import { Ticket } from '../../../common/interface/ticket.interface';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { NewUserComponent } from './components/new-user/new-user.component';
-import { ViewUserComponent } from './components/view-user/view-user.component';
-import { EditUserComponent } from './components/edit-user/edit-user.component';
-import { DeleteUserComponent } from './components/delete-user/delete-user.component';
-
+import { DeleteTicketComponent } from '../components/delete-ticket/delete-ticket.component';
+import { ViewTicketComponent } from '../components/view-ticket/view-ticket.component';
+import { AsignTicketComponent } from '../components/asign-ticket/asign-ticket.component';
+import { NewTicketComponent } from '../components/new-ticket/new-ticket.component';
 @Component({
-  selector: 'app-users',
+  selector: 'app-tickets-all',
   standalone: true,
   imports: [
     CommonModule,
@@ -25,30 +23,29 @@ import { DeleteUserComponent } from './components/delete-user/delete-user.compon
     ButtonModule,
     FormsModule,
     DividerModule,
-    DialogModule
   ],
-  providers: [ DialogService ],
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.css',
+  templateUrl: './tickets-all.component.html',
+  styleUrl: './tickets-all.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ DialogService ]
 })
-export class UsersComponent implements OnInit {
+export class TicketsAllComponent implements OnInit {
+
   @ViewChild('dt1') dt1!: Table;
   searchValue: string | undefined;
   loading: boolean = false;
-  users!: User[];
+  allTickets!: Ticket[];
   ref: DynamicDialogRef | undefined;
+
+  ngOnInit(): void { }
 
   constructor(
     public dialogService: DialogService
   ) {
-    this.users = [
-      { Id : 1 , Nombre : 'departamento 1' , Celular : 'terst' , Departamento : 'asd' , Tipo : 'asd'  }
+    this.allTickets = [
+      { id : 1 , title : 'departamento 1' , category : 'terst' , prioridad : 'asd' , status : 'asd' , esAsignado : true  }
     ]
   }
-
-
-  ngOnInit(): void { }
 
   clear(table: Table) {
     table.clear();
@@ -58,8 +55,9 @@ export class UsersComponent implements OnInit {
     const inputElement = event.target as HTMLInputElement;
     this.dt1.filterGlobal(inputElement.value, 'contains');
   }
-  openNuevo(){
-    this.ref = this.dialogService.open(NewUserComponent, {
+
+openNuevo(){
+    this.ref = this.dialogService.open(NewTicketComponent, {
       header: 'Nuevo Usuario',
       width: '50vw',
       modal:true,
@@ -71,10 +69,25 @@ export class UsersComponent implements OnInit {
 }
 
 
+openAsignar(event:any){
+    this.ref = this.dialogService.open(AsignTicketComponent, {
+      header: '',
+      width: '50vw',
+      modal:true,
+      closable : true,
+      focusOnClose : true,
+      breakpoints: {
+          '960px': '75vw',
+          '640px': '90vw'
+      },
+  });
+}
+
+
 openVer(event:any){
-  this.ref = this.dialogService.open(ViewUserComponent, {
+  this.ref = this.dialogService.open(ViewTicketComponent, {
     header: '',
-    width: '50vw',
+    width: '30vw',
     modal:true,
     closable : true,
     focusOnClose : true,
@@ -85,20 +98,11 @@ openVer(event:any){
 });
 }
 
-openEditar(event:any){
-    this.ref = this.dialogService.open(EditUserComponent, {
-      header: 'Editar Usuario',
-      width: '50vw',
-      modal:true,
-      breakpoints: {
-          '960px': '75vw',
-          '640px': '90vw'
-      },
-  });
-}
+
+
 
 openEliminar(event:any){
-  this.ref = this.dialogService.open(DeleteUserComponent, {
+  this.ref = this.dialogService.open(DeleteTicketComponent, {
     header: 'Eliminar Usuario',
     width: '50vw',
     modal:true,
@@ -108,5 +112,6 @@ openEliminar(event:any){
     },
   });
 }
+
 
 }

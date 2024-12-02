@@ -1,0 +1,48 @@
+<div class="card flex flex-row justify-content-center gap-4 w-full">
+    <div class="flex flex-column gap-2 w-6 pb-2">
+        <label for="nombre_category">Titulo</label>
+        <input 
+            class="w-full"
+            pInputText 
+            id="Titulo" 
+            aria-describedby="Titulo-help" 
+            [(ngModel)]="titulo" />
+    </div>
+    <div class="flex flex-column gap-2 w-6 pb-2">
+        <label for="nombre_departamento">Prioridad</label>
+        <p-dropdown 
+            class="w-full"
+            [options]="prioridades" 
+            [(ngModel)]="selectedPrioridad" 
+            optionLabel="nombre" 
+            placeholder="Seleccionar Departamento ..." />
+    </div>
+</div>
+<div class="card flex flex-column justify-content-center  w-full">
+    <div class="flex flex-column gap-2 w-full pb-2">
+        <label for="nombre_category">Categoria</label>
+        <p-dropdown 
+        class="w-full"
+        [options]="categorias" 
+        [(ngModel)]="selectedCategoria" 
+        optionLabel="nombre" 
+        placeholder="Seleccionar Departamento ..." />
+    </div>
+</div>
+<div class="card flex flex-column justify-content-center pb-2 w-full">
+    <div class="flex flex-column gap-2 w-full pb-4">
+        <label for="descripcion">Descripción</label>
+        <textarea 
+        rows="5"
+        cols="30"
+        pInputTextarea 
+        [autoResize]="true"
+        [(ngModel)]="descripcion">
+    </textarea>
+</div>
+
+<div class="flex justify-content-end pb-2">
+    <p-button (click)="crearTicket()">
+        Crear
+    </p-button>
+</div>

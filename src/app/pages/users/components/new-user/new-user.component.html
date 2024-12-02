@@ -1,0 +1,71 @@
+<div class="card flex flex-column justify-content-center  w-full">
+    <div class="flex flex-column gap-2 w-full pb-2">
+        <label for="nombre_category">Nombre</label>
+        <input 
+            class="w-full"
+            pInputText 
+            id="nombre_category" 
+            aria-describedby="nombre_category-help" 
+            [(ngModel)]="nombre_usuario" />
+    </div>
+</div>
+<div class="card flex flex-row justify-content-center gap-4 w-full">
+    <div class="flex flex-column gap-2 w-6 pb-2">
+        <label for="nombre_departamento">Tipo</label>
+        <p-dropdown 
+            class="w-full"
+            [options]="departments" 
+            [(ngModel)]="selectedDepartment" 
+            optionLabel="nombre" 
+            placeholder="Seleccionar Departamento ..." />
+    </div>
+    <div class="flex flex-column gap-2 w-6 pb-2">
+        <label for="nombre_departamento">Departamento</label>
+        <p-dropdown 
+            class="w-full"
+            [options]="departments" 
+            [(ngModel)]="selectedDepartment" 
+            optionLabel="nombre" 
+            placeholder="Seleccionar Departamento ..." />
+    </div>
+</div>
+<div class="card flex flex-row justify-content-center gap-4 w-full">
+    <div class="flex flex-column gap-2 w-full pb-2">
+        <label for="email">Email</label>
+        <input 
+            type="text"
+            class="w-full"
+            pInputText 
+            id="email" 
+            aria-describedby="email-help" 
+            [(ngModel)]="email" />
+    </div>
+    <div class="flex flex-column gap-2 w-full pb-2">
+        <label for="celular">Telefono/Celular</label>
+        <input 
+            type="text"
+            class="w-full"
+            pInputText 
+            id="celular" 
+            aria-describedby="celular-help" 
+            [(ngModel)]="celular" />
+    </div>
+</div>
+<div class="card flex flex-column justify-content-center pb-2 w-full">
+    <div class="flex flex-column gap-2 w-full pb-4">
+        <label for="password">Password</label>
+        <input 
+            type="password"
+            class="w-full"
+            pInputText 
+            id="password" 
+            aria-describedby="password-help" 
+            [(ngModel)]="password" />
+    </div>
+</div>
+
+<div class="flex justify-content-end pb-2">
+    <p-button (click)="crearUsuario()">
+        Crear
+    </p-button>
+</div>

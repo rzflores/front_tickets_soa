@@ -6,14 +6,13 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
-import { Category } from './models/category.interface';
-import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { NewCategoryComponent } from './components/new-category/new-category.component';
-import { EditCategoryComponent } from './components/edit-category/edit-category.component';
-import { DeleteCategoryComponent } from './components/delete-category/delete-category.component';
-
+import { Ticket } from '../../../common/interface/ticket.interface';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DeleteTicketComponent } from '../components/delete-ticket/delete-ticket.component';
+import { ViewTicketComponent } from '../components/view-ticket/view-ticket.component';
+import { AsignTicketComponent } from '../components/asign-ticket/asign-ticket.component';
 @Component({
-  selector: 'app-categories',
+  selector: 'app-tickets-assigned',
   standalone: true,
   imports: [
     CommonModule,
@@ -23,30 +22,25 @@ import { DeleteCategoryComponent } from './components/delete-category/delete-cat
     ButtonModule,
     FormsModule,
     DividerModule,
-    DynamicDialogModule
   ],
-  templateUrl: './categories.component.html',
-  styleUrl: './categories.component.css',
+  templateUrl: './tickets-assigned.component.html',
+  styleUrl: './tickets-assigned.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DialogService]
+  providers: [ DialogService ]
 })
-export class CategoriesComponent implements OnInit {
-
+export class TicketsAssignedComponent implements OnInit {
 
   @ViewChild('dt1') dt1!: Table;
   searchValue: string | undefined;
   loading: boolean = false;
-  categories!: Category[];
+  asignedTickets!: Ticket[];
   ref: DynamicDialogRef | undefined;
+
   constructor(
     public dialogService: DialogService
   ) {
-    this.categories = [
-      {
-       id : 1,
-       nombre : 'texto' ,
-       nombre_departamento : 'text'
-      }
+    this.asignedTickets = [
+      { id : 1 , title : 'departamento 1' , category : 'terst' , prioridad : 'asd' , status : 'asd' , esAsignado : true  }
     ]
   }
 
@@ -62,33 +56,43 @@ export class CategoriesComponent implements OnInit {
     this.dt1.filterGlobal(inputElement.value, 'contains');
   }
 
-  openNuevo(){
-      this.ref = this.dialogService.open(NewCategoryComponent, {
-        header: 'Nueva Categoria',
-        width: '50vw',
+  
+  
+  openAsignar(event:any){
+    this.ref = this.dialogService.open(AsignTicketComponent, {
+      header: '',
+      width: '50vw',
+      modal:true,
+      closable : true,
+      focusOnClose : true,
+      breakpoints: {
+          '960px': '75vw',
+          '640px': '90vw'
+      },
+  });
+}
+
+  
+  
+  openVer(event:any){
+      this.ref = this.dialogService.open(ViewTicketComponent, {
+        header: '',
+        width: '30vw',
         modal:true,
+        closable : true,
+        focusOnClose : true,
         breakpoints: {
             '960px': '75vw',
             '640px': '90vw'
         },
     });
   }
-
-  openEditar(event:any){
-    this.ref = this.dialogService.open(EditCategoryComponent, {
-      header: 'Editar Departamento',
-      width: '50vw',
-      modal:true,
-      breakpoints: {
-          '960px': '75vw',
-          '640px': '90vw'
-      },
-  });
-  }
-
+  
+  
+  
   openEliminar(event:any){
-    this.ref = this.dialogService.open(DeleteCategoryComponent, {
-      header: 'Eliminar Departamento',
+    this.ref = this.dialogService.open(DeleteTicketComponent, {
+      header: 'Eliminar Usuario',
       width: '50vw',
       modal:true,
       breakpoints: {
