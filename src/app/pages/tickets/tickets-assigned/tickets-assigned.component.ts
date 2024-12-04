@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewChild, type OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, type OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
@@ -11,6 +11,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DeleteTicketComponent } from '../components/delete-ticket/delete-ticket.component';
 import { ViewTicketComponent } from '../components/view-ticket/view-ticket.component';
 import { AsignTicketComponent } from '../components/asign-ticket/asign-ticket.component';
+import { TicketService } from '../services/ticket.service';
 @Component({
   selector: 'app-tickets-assigned',
   standalone: true,
@@ -35,13 +36,21 @@ export class TicketsAssignedComponent implements OnInit {
   loading: boolean = false;
   asignedTickets!: Ticket[];
   ref: DynamicDialogRef | undefined;
+  token:string = '';
 
   constructor(
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    private ticketService : TicketService,
+    private cdr : ChangeDetectorRef
   ) {
-    this.asignedTickets = [
-      { id : 1 , title : 'departamento 1' , category : 'terst' , prioridad : 'asd' , status : 'asd' , esAsignado : true  }
-    ]
+    this.token = localStorage.getItem('token') ?? '';
+    this.ticketService.getAll(this.token).subscribe({
+      next: res => {
+        this.asignedTickets = res;
+        this.asignedTickets = this.asignedTickets.filter( item => item.status != 0)
+        this.cdr.detectChanges();
+      }
+    })
   }
 
 
@@ -72,34 +81,38 @@ export class TicketsAssignedComponent implements OnInit {
   });
 }
 
-  
-  
-  openVer(event:any){
-      this.ref = this.dialogService.open(ViewTicketComponent, {
-        header: '',
-        width: '30vw',
-        modal:true,
-        closable : true,
-        focusOnClose : true,
-        breakpoints: {
-            '960px': '75vw',
-            '640px': '90vw'
-        },
-    });
-  }
-  
-  
-  
-  openEliminar(event:any){
-    this.ref = this.dialogService.open(DeleteTicketComponent, {
-      header: 'Eliminar Usuario',
-      width: '50vw',
-      modal:true,
-      breakpoints: {
-          '960px': '75vw',
-          '640px': '90vw'
-      },
-    });
-  }
+
+openVer(event:any){
+  console.log(event)
+
+  this.ref = this.dialogService.open(ViewTicketComponent, {
+    header: '',
+    width: '30vw',
+    modal:true,
+    data: event,
+    closable : true,
+    focusOnClose : true,
+    breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+    },
+});
+}
+
+
+
+
+openEliminar(event:any){
+  this.ref = this.dialogService.open(DeleteTicketComponent, {
+    header: 'Eliminar Ticket',
+    width: '50vw',
+    data: event,
+    modal:true,
+    breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+    },
+  });
+}
 
 }

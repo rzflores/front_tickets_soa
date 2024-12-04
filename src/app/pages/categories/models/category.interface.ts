@@ -1,5 +1,7 @@
 export interface Category {
     id: number,
-    nombre: string,
-    nombre_departamento: string
+    name: string,
+    department_id: number,
+    created_at?: string,
+    updated_at?: string
 }

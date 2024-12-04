@@ -17,7 +17,7 @@
         [rowsPerPageOptions]="[10, 25, 50]"
         [loading]="loading"
         [paginator]="true"
-        [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+        [globalFilterFields]="['name']"
     >
         <ng-template pTemplate="caption">
             <div class="flex">
@@ -62,12 +62,12 @@
                     {{ item.id }}
                 </td>
                 <td>
-                    {{ item.nombre }}
+                    {{ item.name }}
                 </td>
                 <td class="text-center">
                     <div class="card flex justify-content-center gap-2">
-                        <p-button severity="secondary" label="Editar" (click)="openEditar($event)" />
-                        <p-button severity="danger" label="Eliminar" (onClick)="openEliminar($event)" />
+                        <p-button severity="secondary" label="Editar" (click)="openEditar(item)" />
+                        <p-button severity="danger" label="Eliminar" (click)="openEliminar(item)" />
                     </div>                
                 </td>
             </tr>

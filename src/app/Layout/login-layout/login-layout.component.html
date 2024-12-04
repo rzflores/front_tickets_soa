@@ -10,6 +10,7 @@
                 type="text"
                 pInputText 
                 id="username" 
+                [(ngModel)]="email"
                 />
             <!-- <small id="username-help">
                 Enter your username to reset your password.
@@ -21,6 +22,7 @@
                 type="password"
                 pInputText 
                 id="password" 
+                [(ngModel)]="password"
                 />
             <!-- <small id="username-help">
                 Enter your username to reset your password.
@@ -46,3 +48,4 @@
         </ng-template>
     </p-card>
 </div>
+<p-toast></p-toast>

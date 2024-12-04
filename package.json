@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@angular/router": "^17.0.0",
     "front-tickets": "file:",
+    "ngx-spinner": "^17.0.0",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
     "primeng": "^17.18.11",
@@ -27,7 +28,7 @@
     "zone.js": "~0.14.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.0.5",
+    "@angular-devkit/build-angular": "^17.3.11",
     "@angular/cli": "^17.0.5",
     "@angular/compiler-cli": "^17.0.0",
     "@types/jasmine": "~5.1.0",

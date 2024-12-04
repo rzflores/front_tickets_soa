@@ -1,4 +1,6 @@
 export interface Department{
     id: number,
-    nombre : string
+    name : string,
+    created_at?: string,
+    updated_at?: string
 }

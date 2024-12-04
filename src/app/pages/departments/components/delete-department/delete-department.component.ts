@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FloatLabelModule } from "primeng/floatlabel"
 import { InputTextModule } from 'primeng/inputtext';
+import { DepartmentService } from '../../services/department.service';
 
 
 @Component({
@@ -17,10 +18,25 @@ import { InputTextModule } from 'primeng/inputtext';
 })
 export class DeleteDepartmentComponent {
 
-
-  constructor(public ref: DynamicDialogRef) {}
+  idItem : string = ''
+  token :string = ''
+  constructor(
+            public ref: DynamicDialogRef,
+            private config: DynamicDialogConfig,
+            private departmentService:DepartmentService
+  ) {
+    this.idItem = this.config.data;
+    this.token = localStorage.getItem('token') ?? ''
+  }
   executeEliminar(){
+    this.departmentService.deleteDepartment(this.token,this.idItem)
+    .subscribe({
+      next: (res) => {
+        console.log(res)
+      }
 
+
+    })
   }
 
   cancelEliminar(){

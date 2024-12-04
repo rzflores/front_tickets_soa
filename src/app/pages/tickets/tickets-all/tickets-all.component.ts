@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewChild, type OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, type OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
@@ -12,6 +12,8 @@ import { DeleteTicketComponent } from '../components/delete-ticket/delete-ticket
 import { ViewTicketComponent } from '../components/view-ticket/view-ticket.component';
 import { AsignTicketComponent } from '../components/asign-ticket/asign-ticket.component';
 import { NewTicketComponent } from '../components/new-ticket/new-ticket.component';
+import { TicketService } from '../services/ticket.service';
+import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-tickets-all',
   standalone: true,
@@ -23,6 +25,7 @@ import { NewTicketComponent } from '../components/new-ticket/new-ticket.componen
     ButtonModule,
     FormsModule,
     DividerModule,
+    ToastModule
   ],
   templateUrl: './tickets-all.component.html',
   styleUrl: './tickets-all.component.css',
@@ -36,15 +39,21 @@ export class TicketsAllComponent implements OnInit {
   loading: boolean = false;
   allTickets!: Ticket[];
   ref: DynamicDialogRef | undefined;
-
+  token:string = '';
   ngOnInit(): void { }
 
   constructor(
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    private ticketService : TicketService,
+    private cdr : ChangeDetectorRef
   ) {
-    this.allTickets = [
-      { id : 1 , title : 'departamento 1' , category : 'terst' , prioridad : 'asd' , status : 'asd' , esAsignado : true  }
-    ]
+    this.token = localStorage.getItem('token') ?? '';
+    this.ticketService.getAll(this.token).subscribe({
+      next: res => {
+        this.allTickets = res;
+        this.cdr.detectChanges();
+      }
+    })
   }
 
   clear(table: Table) {
@@ -58,7 +67,7 @@ export class TicketsAllComponent implements OnInit {
 
 openNuevo(){
     this.ref = this.dialogService.open(NewTicketComponent, {
-      header: 'Nuevo Usuario',
+      header: 'Nuevo Ticket',
       width: '50vw',
       modal:true,
       breakpoints: {
@@ -73,6 +82,7 @@ openAsignar(event:any){
     this.ref = this.dialogService.open(AsignTicketComponent, {
       header: '',
       width: '50vw',
+      data : event,
       modal:true,
       closable : true,
       focusOnClose : true,
@@ -85,10 +95,13 @@ openAsignar(event:any){
 
 
 openVer(event:any){
+  console.log(event)
+
   this.ref = this.dialogService.open(ViewTicketComponent, {
     header: '',
     width: '30vw',
     modal:true,
+    data: event,
     closable : true,
     focusOnClose : true,
     breakpoints: {
@@ -103,8 +116,9 @@ openVer(event:any){
 
 openEliminar(event:any){
   this.ref = this.dialogService.open(DeleteTicketComponent, {
-    header: 'Eliminar Usuario',
+    header: 'Eliminar Ticket',
     width: '50vw',
+    data: event,
     modal:true,
     breakpoints: {
         '960px': '75vw',

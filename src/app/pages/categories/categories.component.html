@@ -59,15 +59,15 @@
         <ng-template pTemplate="body" let-item>
             <tr>
                 <td>
-                    text
+                    {{ item.id }}
                 </td>
                 <td>
-                    text
+                    {{ item.name }}
                 </td>
                 <td class="text-center">
                     <div class="card flex justify-content-center gap-2">
-                        <p-button severity="secondary" label="Editar" (click)="openEditar($event)" />
-                        <p-button severity="danger" label="Eliminar" (onClick)="openEliminar($event)" />
+                        <p-button severity="secondary" label="Editar" (click)="openEditar(item)" />
+                        <p-button severity="danger" label="Eliminar" (onClick)="openEliminar(item)" />
                     </div> 
                 </td>
             </tr>

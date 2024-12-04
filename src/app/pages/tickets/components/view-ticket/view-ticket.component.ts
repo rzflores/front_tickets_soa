@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { PreCommentTicketComponent } from '../pre-comment-ticket/pre-comment-ticket.component';
+import { Ticket } from '../../../../common/interface/ticket.interface';
 
 @Component({
   selector: 'app-view-ticket',
@@ -17,12 +18,14 @@ import { PreCommentTicketComponent } from '../pre-comment-ticket/pre-comment-tic
 })
 export class ViewTicketComponent { 
   
-
+  viewItem! : Ticket ;
   refPrecomment: DynamicDialogRef | undefined;
   constructor(
     public dialogService: DialogService,
-    public ref: DynamicDialogRef
+    public ref: DynamicDialogRef,
+    private config: DynamicDialogConfig,
   ) {
+    this.viewItem = this.config.data;
   }
   
     viewComentarios(){

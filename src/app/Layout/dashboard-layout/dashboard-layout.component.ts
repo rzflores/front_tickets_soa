@@ -12,6 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { Router, RouterModule } from '@angular/router';
 import { CardModule } from 'primeng/card';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
@@ -41,8 +42,8 @@ export class DashboardLayoutComponent implements OnInit {
 
 
   constructor(
-    private _router: Router
-
+    private router: Router,
+    private authService: AuthService
   ) {
     
   }
@@ -63,21 +64,21 @@ export class DashboardLayoutComponent implements OnInit {
                       icon: 'pi pi-plus-circle',
                       command: () =>  { 
                           this.isViewDashboard = false 
-                          this._router.navigate(['/dashboard/tickets-assigned']) }
+                          this.router.navigate(['/dashboard/tickets-assigned']) }
                   },
                   {
                     label: 'No asignados',
                     icon: 'pi pi-times-circle',
                     command: () =>  {
                           this.isViewDashboard = false 
-                          this._router.navigate(['/dashboard/tickets-unassigned']) }
+                          this.router.navigate(['/dashboard/tickets-unassigned']) }
                   },
                   {
                       label: 'Todos',
                       icon: 'pi pi-search',
                       command: () => {
                           this.isViewDashboard = false 
-                          this._router.navigate(['/dashboard/tickets-all']) }
+                          this.router.navigate(['/dashboard/tickets-all']) }
                   },
               ]
           },
@@ -89,7 +90,7 @@ export class DashboardLayoutComponent implements OnInit {
                       icon: 'pi pi-users',
                       command: () =>  {
                         this.isViewDashboard = false 
-                        this._router.navigate(['/dashboard/users'])
+                        this.router.navigate(['/dashboard/users'])
                       }
                   },
                   {
@@ -97,14 +98,14 @@ export class DashboardLayoutComponent implements OnInit {
                       icon: 'pi pi-building',
                       command: () => {
                         this.isViewDashboard = false 
-                        this._router.navigate(['/dashboard/departments'])}
+                        this.router.navigate(['/dashboard/departments'])}
                   },
                   {
                     label: 'Categorias',
                     icon: 'pi pi-bars',
                     command: () => { 
                         this.isViewDashboard = false 
-                        this._router.navigate(['/dashboard/categories'])
+                        this.router.navigate(['/dashboard/categories'])
                       }
                   }
               ]
@@ -126,13 +127,34 @@ export class DashboardLayoutComponent implements OnInit {
   }
 
   onLogout() {
-    this._router.navigate([
-      '/login'
-    ])
+
+    this.authService.logout(localStorage.getItem('token') ?? '').subscribe(
+      {
+        next: (res) => {
+          if(res.token){
+            
+            
+          }
+          
+        },
+        error: (err) => {
+          localStorage.removeItem( 'token')
+          this.router.navigate([
+            '/login'
+          ])
+        },
+        complete:() => {
+         
+        }
+
+      }
+    )
+
+   
   }
 
   onDashboard(){
-    this._router.navigate([
+    this.router.navigate([
       '/dashboard'
     ])
     this.isViewDashboard = true

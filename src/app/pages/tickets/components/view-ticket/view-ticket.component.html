@@ -1,11 +1,41 @@
 <div class="card flex flex-column flex-wrap justify-content-start pb-4 w-full">
     <div class="card flex flex-column justify-content-start">
-        <p><b>Titulo:</b>test<br>
-        <b>Estado:</b>test<br>
-        <b>Prioridad:</b>test<br>
-        <b>Descripción:</b>test<br>
-        <b>Categoria:</b>test<br>
-        <b>Asignado:</b>test</p>
+        <p><b>Titulo:</b>{{viewItem.title}}<br>
+        <b>Estado:</b>@switch (viewItem.status) {
+            @case (0) {
+                Abierto
+            }
+            @case (1) {
+                En proceso
+            }
+            @case (2) {
+                Cerrado
+            }
+        }<br>
+        <b>Prioridad:</b> @switch (viewItem.priority) {
+            @case (0) {
+                Baja
+            }
+            @case (1) {
+                Media
+            }
+            @case (2) {
+                Alta
+            }
+        }<br>
+        <b>Descripción:</b>{{viewItem.description}}<br>
+        <b>Categoria:</b>{{viewItem.category.name}}<br>
+        <b>Asignado:</b>@switch (viewItem.status) {
+            @case (0) {
+                No asignado
+            }
+            @case (1) {
+                Asignado
+            }
+            @case (2) {
+                Asignado
+            }
+        }</p>
     </div>
 </div>
 

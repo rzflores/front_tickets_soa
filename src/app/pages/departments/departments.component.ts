@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewChild, type OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, type OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
@@ -11,6 +11,7 @@ import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dy
 import { NewDepartmentComponent } from './components/new-department/new-department.component';
 import { EditDepartmentComponent } from './components/edit-department/edit-department.component';
 import { DeleteDepartmentComponent } from './components/delete-department/delete-department.component';
+import { DepartmentService } from './services/department.service';
 
 
 @Component({
@@ -39,13 +40,23 @@ export class DepartmentsComponent implements OnInit {
   loading: boolean = false;
   departments!: Department[];
   ref: DynamicDialogRef | undefined;
-
+  token:string = '';
   constructor(
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    private departmentService : DepartmentService,
+    private cdr : ChangeDetectorRef
   ) {
-    this.departments = [
-      { id : 1 , nombre : 'departamento 1'  }
-    ]
+    this.token = localStorage.getItem('token') ?? '';
+    this.departmentService.getAll(this.token).subscribe(
+      {
+        next: res => {
+          this.departments = res.departments;
+          this.cdr.detectChanges();
+        }
+      }
+    )
+
+    
   }
 
   ngOnInit(): void { }
@@ -71,11 +82,12 @@ export class DepartmentsComponent implements OnInit {
   });
 }
 
-openEditar(event:any){
+openEditar(item:Department){
     this.ref = this.dialogService.open(EditDepartmentComponent, {
       header: 'Editar Departamento',
       width: '50vw',
       modal:true,
+      data: item,
       breakpoints: {
           '960px': '75vw',
           '640px': '90vw'
@@ -83,10 +95,11 @@ openEditar(event:any){
   });
 }
 
-openEliminar(event:any){
+openEliminar(item:Department){
   this.ref = this.dialogService.open(DeleteDepartmentComponent, {
     header: 'Eliminar Departamento',
     width: '50vw',
+    data: item.id, 
     modal:true,
     breakpoints: {
         '960px': '75vw',

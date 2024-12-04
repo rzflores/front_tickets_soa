@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewChild, type OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, type OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
@@ -11,6 +11,9 @@ import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dy
 import { NewCategoryComponent } from './components/new-category/new-category.component';
 import { EditCategoryComponent } from './components/edit-category/edit-category.component';
 import { DeleteCategoryComponent } from './components/delete-category/delete-category.component';
+import { CategoryService } from './services/category.service';
+import { Department } from '../departments/models/department.interface';
+import { DepartmentService } from '../departments/services/department.service';
 
 @Component({
   selector: 'app-categories',
@@ -37,17 +40,24 @@ export class CategoriesComponent implements OnInit {
   searchValue: string | undefined;
   loading: boolean = false;
   categories!: Category[];
+  departments!: Department[];
+
   ref: DynamicDialogRef | undefined;
+  token : string = '';
   constructor(
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    private categoryService : CategoryService,
+    private cdr : ChangeDetectorRef
   ) {
-    this.categories = [
-      {
-       id : 1,
-       nombre : 'texto' ,
-       nombre_departamento : 'text'
+    this.token = localStorage.getItem('token') ?? ''
+    this.categoryService.getAll(this.token).subscribe({
+      next: (res) => {
+        this.categories = res.categories;
+        this.cdr.detectChanges();
       }
-    ]
+    })
+   
+    
   }
 
 
@@ -78,6 +88,8 @@ export class CategoriesComponent implements OnInit {
     this.ref = this.dialogService.open(EditCategoryComponent, {
       header: 'Editar Departamento',
       width: '50vw',
+      height: '70hw',
+      data: event,
       modal:true,
       breakpoints: {
           '960px': '75vw',
