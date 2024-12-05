@@ -6,6 +6,8 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { PreCommentTicketComponent } from '../pre-comment-ticket/pre-comment-ticket.component';
 import { Ticket } from '../../../../common/interface/ticket.interface';
+import { Router } from '@angular/router';
+import { DataSharedService } from '../../../../common/services/DataShared.service';
 
 @Component({
   selector: 'app-view-ticket',
@@ -24,20 +26,28 @@ export class ViewTicketComponent {
     public dialogService: DialogService,
     public ref: DynamicDialogRef,
     private config: DynamicDialogConfig,
+    public router: Router,
+    private dataShared: DataSharedService
   ) {
     this.viewItem = this.config.data;
+    this.dataShared.setViewTicket(this.viewItem)
   }
   
     viewComentarios(){
       this.ref.close();
-      this.refPrecomment = this.dialogService.open( PreCommentTicketComponent , {
-        header: 'Nuevo Usuario',
-        width: '50vw',
-        modal:true,
-        breakpoints: {
-            '960px': '75vw',
-            '640px': '90vw'
-        },        
-    });
+      if(this.viewItem.status === 0){
+        this.refPrecomment = this.dialogService.open( PreCommentTicketComponent , {
+          header: '',
+          width: '50vw',
+          modal:true,
+          breakpoints: {
+              '960px': '75vw',
+              '640px': '90vw'
+          },        
+      });
+    }else{
+      this.router.navigate(['/dashboard/ticket-commets'])
+    }
+      
   }
 }

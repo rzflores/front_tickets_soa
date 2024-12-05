@@ -51,6 +51,13 @@ export class TicketsAllComponent implements OnInit {
     this.ticketService.getAll(this.token).subscribe({
       next: res => {
         this.allTickets = res;
+        this.allTickets = this.allTickets.map(ticket => ({
+          ...ticket,
+          priorityText: ticket.priority === 0 ? 'Baja' : ticket.priority === 1 ? 'Media' : 'Alta',
+          statusText: ticket.status === 0 ? 'Abierto' : ticket.priority === 1 ? 'En proceso' : 'Cerrado',
+          assignedText : ticket.status == 0 ? 'No asignado' : ticket.status === 1 ? 'Asignado' : 'Asignado',
+        }));
+
         this.cdr.detectChanges();
       }
     })

@@ -1,20 +1,27 @@
 <div class="flex flex-row justify-start pb-4 self-start w-full">
     <div class="flex flex-row justify-end gap-2 w-full">
-        <p>Ticket ID: 172</p>
+        <p>Ticket ID: {{ this.viewTicket.id }}</p>
         <p-chip class="mt-1" label="Apple" icon="pi pi-apple"></p-chip>
     </div>
 </div>
 <div class="flex justify-content-center pb-2">
     <div class="card flex justify-content-end gap-2 w-full">
-        <p-button severity="secondary" label="Ver Ticket" (onClick)="openViewTicket()" />
-        <p-button severity="info" label="Adjuntar Archivo" (onClick)="openAjuntarArchivo()" />
-        <p-button severity="danger" label="Cerrar Ticket" (click)="openCloseTicket()" />
+        <p-button severity="secondary" label="Ver Ticket" (onClick)="openViewTicket(this.viewTicket)" />
+        <p-button severity="info" label="Adjuntar Archivo" (onClick)="openAjuntarArchivo(this.viewTicket)" />
+        <p-button severity="danger" label="Cerrar Ticket" (click)="openCloseTicket(this.viewTicket)" />
     </div>  
 </div>
 
 <div class="flex justify-content-center pb-2 w-full">
     <p-card [scrollLeft]="true" class="w-full">
-        
+        <div>
+            <ul>
+        @for (item of comments; track $index) {
+                    <li>{{$index + 1}}.{{ item.description }}</li>
+        }
+        </ul>
+    </div>
+
     </p-card>
 </div>
 
@@ -34,3 +41,4 @@
     <p-button class="w-full" severity="secondary" label="Agregar Comentario" (onClick)="addComentario()" />
 </div>  
 
+<p-toast></p-toast>

@@ -13,6 +13,7 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { Router, RouterModule } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { AuthService } from '../services/auth.service';
+import { DataSharedService } from '../../common/services/DataShared.service';
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
@@ -39,13 +40,20 @@ export class DashboardLayoutComponent implements OnInit {
   itemsProfile: MenuItem[] | undefined;
   itemsMenu: MenuItem[] | undefined;
   isViewDashboard : boolean = true;
-
+  token : string = '';
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private dataShared: DataSharedService
+
   ) {
-    
+    this.token = localStorage.getItem('token') ?? ''
+    this.authService.getUserData(this.token).subscribe({
+      next : (res) => {
+         this.dataShared.setUsuario(res);
+      }
+    })
   }
 
   ngOnInit(): void { 

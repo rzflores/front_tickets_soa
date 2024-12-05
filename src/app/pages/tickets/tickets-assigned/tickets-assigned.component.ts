@@ -6,12 +6,13 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
-import { Ticket } from '../../../common/interface/ticket.interface';
+import { Ticket, UserAgent } from '../../../common/interface/ticket.interface';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DeleteTicketComponent } from '../components/delete-ticket/delete-ticket.component';
 import { ViewTicketComponent } from '../components/view-ticket/view-ticket.component';
 import { AsignTicketComponent } from '../components/asign-ticket/asign-ticket.component';
 import { TicketService } from '../services/ticket.service';
+import { DataSharedService } from '../../../common/services/DataShared.service';
 @Component({
   selector: 'app-tickets-assigned',
   standalone: true,
@@ -37,17 +38,23 @@ export class TicketsAssignedComponent implements OnInit {
   asignedTickets!: Ticket[];
   ref: DynamicDialogRef | undefined;
   token:string = '';
+  userLogged!: UserAgent ;
+
 
   constructor(
     public dialogService: DialogService,
     private ticketService : TicketService,
-    private cdr : ChangeDetectorRef
+    private cdr : ChangeDetectorRef,
+    private dataShared : DataSharedService
   ) {
     this.token = localStorage.getItem('token') ?? '';
     this.ticketService.getAll(this.token).subscribe({
       next: res => {
+        this.userLogged= this.dataShared.getUsuario()
         this.asignedTickets = res;
         this.asignedTickets = this.asignedTickets.filter( item => item.status != 0)
+        this.asignedTickets = this.asignedTickets
+        .filter(ticket => ticket.assigned_agent.some(agent => agent.id === this.userLogged.id));
         this.cdr.detectChanges();
       }
     })

@@ -10,6 +10,7 @@ export class AuthService {
   apiUrl: string = environment.apiUrl
   loginUrl :string = '/login';
   logoutUrl :string = '/login';
+  userUrl : string = '/api/user'
 
   constructor(
     private _http : HttpClient
@@ -39,5 +40,11 @@ export class AuthService {
         return throwError(() => new Error(error.message));
       })
     );
+  }
+
+  getUserData(token:string){
+    let httpUrl = this.apiUrl+this.userUrl;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._http.get<any>(httpUrl , { headers })
   }
 }

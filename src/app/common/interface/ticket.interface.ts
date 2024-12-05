@@ -5,8 +5,11 @@ export interface Ticket{
     title: string,
     description: string,
     status : number,
+    statusText : string,
     priority: number,
+    priorityText : string,
     user_id : number,
+    assignedText: string
     created_at : string,
     updated : string
     category_id: number
@@ -28,7 +31,14 @@ export interface UserAgent{
     department_id: number,
 }
 
-
+export interface CommentTicket {
+        id: number,
+        description: string,
+        ticket_id: number,
+        user_id: number,
+        created_at: string,
+        updated_at: string
+}
 
 
 

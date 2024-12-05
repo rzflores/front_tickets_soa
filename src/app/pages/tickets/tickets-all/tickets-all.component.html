@@ -17,7 +17,13 @@
         [rowsPerPageOptions]="[10, 25, 50]"
         [loading]="loading"
         [paginator]="true"
-        [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+        [globalFilterFields]="['id', 
+                               'title', 
+                               'priorityText' , 
+                               'category.name',
+                               'statusText',
+                               'assignedText' 
+                               ]"
     >
         <ng-template pTemplate="caption">
             <div class="flex">
@@ -90,46 +96,16 @@
                     {{  item.title }}
                 </td>
                 <td>
-                    @switch (item.priority) {
-                        @case (0) {
-                            Baja
-                        }
-                        @case (1) {
-                            Media
-                        }
-                        @case (2) {
-                            Alta
-                        }
-                    }
+                    {{ item.priorityText }}
                 </td>
                 <td>
                    {{ item.category.name  }}
                 </td>
                 <td>
-                    @switch (item.status) {
-                        @case (0) {
-                            Abierto
-                        }
-                        @case (1) {
-                            En proceso
-                        }
-                        @case (2) {
-                            Cerrado
-                        }
-                    }
+                   {{ item.statusText }}
                 </td>
                 <td>
-                    @switch (item.status) {
-                        @case (0) {
-                            No asignado
-                        }
-                        @case (1) {
-                            Asignado
-                        }
-                        @case (2) {
-                            Asignado
-                        }
-                    }
+                   {{ item.assignedText }}
                 </td>
                 <td class="text-center">
                     <div class="card flex justify-content-center gap-2">
