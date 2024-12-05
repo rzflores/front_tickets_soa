@@ -13,6 +13,7 @@ import { ViewTicketComponent } from '../components/view-ticket/view-ticket.compo
 import { AsignTicketComponent } from '../components/asign-ticket/asign-ticket.component';
 import { NewTicketComponent } from '../components/new-ticket/new-ticket.component';
 import { TicketService } from '../services/ticket.service';
+import { ExportExcelService } from '../../../common/services/ExportExcel.service';
 
 @Component({
   selector: 'app-tickets-unassigned',
@@ -45,7 +46,9 @@ export class TicketsUnassignedComponent implements OnInit {
   constructor(
     public dialogService: DialogService,
     private ticketService : TicketService,
-    private cdr : ChangeDetectorRef
+    private cdr : ChangeDetectorRef,
+    private excelExportService : ExportExcelService
+
   ) {
     this.token = localStorage.getItem('token') ?? '';
     this.ticketService.getAll(this.token).subscribe({
@@ -59,9 +62,11 @@ export class TicketsUnassignedComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  clear(table: Table) {
-    table.clear();
-    this.searchValue = ''
+  exportExcel() {
+    this.excelExportService.exportToExcel(
+      this.unasignedTickets,
+      'TicketNoAsignados'
+    )
   }
   onSearch(event: Event): void {
     const inputElement = event.target as HTMLInputElement;

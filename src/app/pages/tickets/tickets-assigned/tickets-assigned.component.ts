@@ -13,6 +13,7 @@ import { ViewTicketComponent } from '../components/view-ticket/view-ticket.compo
 import { AsignTicketComponent } from '../components/asign-ticket/asign-ticket.component';
 import { TicketService } from '../services/ticket.service';
 import { DataSharedService } from '../../../common/services/DataShared.service';
+import { ExportExcelService } from '../../../common/services/ExportExcel.service';
 @Component({
   selector: 'app-tickets-assigned',
   standalone: true,
@@ -45,7 +46,8 @@ export class TicketsAssignedComponent implements OnInit {
     public dialogService: DialogService,
     private ticketService : TicketService,
     private cdr : ChangeDetectorRef,
-    private dataShared : DataSharedService
+    private dataShared : DataSharedService,
+    private excelExportService : ExportExcelService
   ) {
     this.token = localStorage.getItem('token') ?? '';
     this.ticketService.getAll(this.token).subscribe({
@@ -63,9 +65,11 @@ export class TicketsAssignedComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  clear(table: Table) {
-    table.clear();
-    this.searchValue = ''
+  exportExcel() {
+    this.excelExportService.exportToExcel(
+      this.asignedTickets,
+      'TicketAsignados'
+    )
   }
   onSearch(event: Event): void {
     const inputElement = event.target as HTMLInputElement;

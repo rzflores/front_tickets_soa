@@ -14,6 +14,7 @@ import { AsignTicketComponent } from '../components/asign-ticket/asign-ticket.co
 import { NewTicketComponent } from '../components/new-ticket/new-ticket.component';
 import { TicketService } from '../services/ticket.service';
 import { ToastModule } from 'primeng/toast';
+import { ExportExcelService } from '../../../common/services/ExportExcel.service';
 @Component({
   selector: 'app-tickets-all',
   standalone: true,
@@ -45,7 +46,8 @@ export class TicketsAllComponent implements OnInit {
   constructor(
     public dialogService: DialogService,
     private ticketService : TicketService,
-    private cdr : ChangeDetectorRef
+    private cdr : ChangeDetectorRef,
+    private excelExportService : ExportExcelService
   ) {
     this.token = localStorage.getItem('token') ?? '';
     this.ticketService.getAll(this.token).subscribe({
@@ -63,9 +65,11 @@ export class TicketsAllComponent implements OnInit {
     })
   }
 
-  clear(table: Table) {
-    table.clear();
-    this.searchValue = ''
+  exportExcel() {
+    this.excelExportService.exportToExcel(
+      this.allTickets,
+      'TicketTodos'
+    )
   }
   onSearch(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
